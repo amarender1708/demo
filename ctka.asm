@@ -30,4 +30,6 @@ maketpf_env += base_rt
 ASM_SRC := ctka.asm
  
 include maketpf.rules
+LA     R1,EB0EB 
+LLGF   R4,0(TAKEIT)
 exit
