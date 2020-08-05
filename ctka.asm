@@ -32,4 +32,8 @@ ASM_SRC := ctka.asm
 include maketpf.rules
 LA     R1,EB0EB 
 LLGF   R4,0(TAKEIT)
+LGR    R5,R5
+LGR    R10,R10
+This is the fix for OPR-4
+
 exit
