@@ -34,6 +34,12 @@ LA     R1,EB0EB
 LLGF   R4,0(TAKEIT)
 LGR    R5,R5
 LGR    R10,R10
+LGR    R13,R13
+get me a pizza
+i have ordered pizza
+
 This is the fix for OPR-4
+
+The pizza is delivered
 
 exit
