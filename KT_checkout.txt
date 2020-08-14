@@ -1,0 +1,201 @@
+
+UI(Front) -> WorkFlowAPI(Backend) -> IntergrationInterface
+                                          - TOS Service (TOS)
+			                              - ActivitiBPM
+			                              - YoDA
+										  - Mail
+										  - ProjectServer
+										  - CSR
+										  - Ticket
+										  - SNOW
+			                              - Jenkins
+                                          - JGitAPI ---------------------> ShellScript (zLinux /var/log/workflow/mtpconsole.log)
+----------------------------------------------------------
+            Tomcat
+			 /var/log/workflow/workflow.log
+			 /var/log/workflow/workflow_error.log
+			 /var/log/workflow/workflow_jgit.log
+			 /var/log/workflow/workflow_jgit_error.log
+--------------------------------------------------------------------------------------------------------------------------------
+
+tail -f /var/log/workflow/mtpconsole.log
+
+Pre-checkout calls:
+-------------------
+2020-07-29T14:25:54.334246+00:00 zhldvztbs002 [info] e737436[64464]:pid[64440] mtptpffilecheck:Start t2000375_001_wsp PROD_b82d58a_src/sam5.asm RC:0
+2020-07-29T14:25:54.358566+00:00 zhldvztbs002 [info] e737436[64465]:pid[64440] mtptpffilecheck:END t2000375_001_wsp PROD_b82d58a_src/sam5.asm RC:0
+
+2020-07-29T14:25:54.839136+00:00 zhldvztbs002 [info] e737436[64493]:pid[64469] mtpgitcmdchkallmak:Start sam5.asm WSP RC:0
+2020-07-29T14:25:54.842436+00:00 zhldvztbs002 [info] e737436[64494]:pid[64469] mtpgitcmdchkallmak:EXEC:mtpgitcmdchkmak sam5.asm WSP RC:
+2020-07-29T14:25:54.854598+00:00 zhldvztbs002 [info] e737436[64498]:pid[64495] mtpgitcmdchkmak: Start sam5.asm WSP RC:0
+2020-07-29T14:26:09.161834+00:00 zhldvztbs002 [info] e737436[64745]:pid[64495] mtpgitcmdchkmak:END sam5.asm wsp RC:0
+2020-07-29T14:26:09.163773+00:00 zhldvztbs002 [info] e737436[64746]:pid[64469] mtpgitcmdchkallmak:EXEC:mtpgitcmdchkmak executed results - sam5.asm:  RC:0
+2020-07-29T14:26:09.167498+00:00 zhldvztbs002 [info] e737436[64747]:pid[64469] mtpgitcmdchkallmak:END sam5.asm WSP RC:0
+
+Checkout calls:
+---------------
+2020-07-29T14:56:33.104159+00:00 zhldvztbs002 [info] e737436[16310]:pid[16285] mtpgitcreateworkspace:Start /tpf/tp/source/t2000375 t2000375_001_wsp RC:0
+2020-07-29T14:56:37.580474+00:00 zhldvztbs002 [info] e737436[16331]:pid[16285] mtpgitcreateworkspace:Workspace t2000375_001_wsp created RC:0
+2020-07-29T14:56:37.581422+00:00 zhldvztbs002 [info] e737436[16332]:pid[16285] mtpgitcreateworkspace:END /tpf/tp/source/t2000375 t2000375_001_wsp RC:0
+
+2020-07-29T14:56:38.088353+00:00 zhldvztbs002 [info] e737436[16361]:pid[16337] mtpgitcmdchkout:Start t2000375_001_wsp src/sam5.asm b82d58abcac9734403e4c53f12dcafef7b0c9572 5aede00c1a21827e2bc71fa04168675433cff5b2 ssh://ztpfdevopstoolchainint.dv.tvlport.com:8445/tpf/tp/nonibm/nonibm_sys.git t2000375 RC:0
+2020-07-29T14:56:52.641197+00:00 zhldvztbs002 [info] e737436[16711]:pid[16337] mtpgitcmdchkout:Checkout src/sam5.asm segment added to t2000375_wsp branch at prod repo RC:0
+2020-07-29T14:56:52.696059+00:00 zhldvztbs002 [info] e737436[16713]:pid[16337] mtpgitcmdchkout:Checkout src/sam5.asm segment commited to t2000375_wsp branch at prod repo RC:0
+2020-07-29T14:56:56.552376+00:00 zhldvztbs002 [info] e737436[16728]:pid[16337] mtpgitcmdchkout:Commit src/sam5.asm segment and push to t2000375_wsp branch RC:0
+2020-07-29T14:56:57.713286+00:00 zhldvztbs002 [info] e737436[16766]:pid[16337] mtpgitcmdchkout:Commit src/sam5.asm segment and push to t2000375_wsp branch RC:0
+2020-07-29T14:56:57.714730+00:00 zhldvztbs002 [info] e737436[16767]:pid[16337] mtpgitcmdchkout:t2000375_001_wsp src/sam5.asm success. RC:0
+2020-07-29T14:56:57.935228+00:00 zhldvztbs002 [info] e737436[16776]:pid[16337] mtpgitcmdchkout:Auto-comment added to src/sam5.asm file RC:0
+2020-07-29T14:56:57.939109+00:00 zhldvztbs002 [info] e737436[16777]:pid[16337] mtpgitcmdchkout:END t2000375_001_wsp src/sam5.asm b82d58abcac9734403e4c53f12dcafef7b0c9572 5aede00c1a21827e2bc71fa04168675433cff5b2 ssh://ztpfdevopstoolchainint.dv.tvlport.com:8445/tpf/tp/nonibm/nonibm_sys.git t2000375 RC:0
+
+Checkout:
+---------
+                                                 |----<----git clone--(origin)---------------------------------------------------------------------------------------------------------------------<---|
+          Local workspace/repository (zLinux)    |                                                     Remote repository (Linux webserver/tomcat)                                                      |
+          ===================================    |                                                     ==============================================================================================  |
+/home/vinoth.sundararajan/projects/t2000375_001/wsp                                                    (Gitblit - ***tpf/tp/nonibm/nonibm_sys.git,             ***tpf/tp/source/t2000375.git)          |
+                                                 |t2000375_001_wsp                                                |master_wsp                                                     |master_wsp          |
+                                                 .giref/nonibm_sys                  <-Submodule add -(nonibm_sys)-|   src/sam3.asm v1 (ONLINE)                                                         |
+                                                          |master_wsp                                                 src/sam4.asm v1 (ONLINE)                                                         ^
+                                                            src/sam5.asm v1 (ONLINE) <-same content ----------------->src/sam5.asm v1 (ONLINE)                                                         |
+                                                                                                                                                                                                       |
+                                                          |t2000375_wsp               ------------Push to remote-->|t2000375_wsp                                                   |t2000375_001_wsp --|
+                                                            src/sam5.asm v1 (ONLINE) -|                                src/sam5.asm v1 (ONLINE)                                          ^
+                                                                                      |                                                                                                  |
+                                                 src/sam5.asm v1 (ONLINE) <------------                                                                                                  |
+                                                     sam5.asm << (Auto comment - Checkout from v1 ONLINE)                                                                                |
+                                                 $ git add src/sam5.asm                                                                                                                  |
+                                                 $ git commit -m "Checkout from v1 -  src/sam5.asm"                                                                                      |
+                                                 $ git push origin t2000375_001_wsp ---------------------------------------------------------------------------------------------->------|
+
+--
+
+bash -x ${MTP_ENV}/mtpgitcmdchkallmak "sam5.asm" "WSP" &> debug.log
+
+
+----------------------
+[e737436@zhldvztbs002 ~]$ ls -ls /opt/mtp/
+total 2868
+ 16 -rwxr-xr-x 1 arul.dhandapani domain_users  12372 Jul 27 08:09 mtpcntlfilerej
+ 12 -rwxr-xr-x 1 arul.dhandapani domain_users  10307 Jul 27 08:09 mtpcntlfileval
+ 
+ 32 -rwxr-xr-x 1 arul.dhandapani domain_users  32566 Jul 27 08:09 mtpcreatedvlmaketpfcfg
+
+  8 -rwxr-xr-x 1 arul.dhandapani mtpservice     6820 Jul 27 08:09 mtpgitapigetfile
+  8 -rwxr-xr-x 1 arul.dhandapani domain_users   7651 Jul 27 08:09 mtpgitarchiveimpl
+ 60 -rwxrwxr-x 1 arul.dhandapani mtpservice    58458 Jul 27 08:09 mtpgitautoupdate
+
+ 16 -rwxrwxrwx 1 arul.dhandapani mtpservice    13505 Jul 27 08:09 mtpgitcmdadd
+ 16 -rwxrwxrwx 1 arul.dhandapani mtpservice    15370 Jun  3 11:36 mtpgitcmdadd1
+ 60 -rwxrwxrwx 1 arul.dhandapani mtpservice    60519 Jul 27 08:09 mtpgitcmdcheckin
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     4259 Jul 27 08:09 mtpgitcmdchkallmak
+ 16 -rwxrwxrwx 1 arul.dhandapani mtpservice    16348 Jul 27 08:09 mtpgitcmdchkmak
+ 36 -rwxrwxrwx 1 arul.dhandapani mtpservice    33566 Jul 27 08:09 mtpgitcmdchkout
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     5352 Jul 27 08:09 mtpgitcmdcommit
+ 72 -rwxrwxrwx 1 arul.dhandapani mtpservice    72037 Jul 27 08:09 mtpgitcmddel
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     7730 Jul 27 08:09 mtpgitcmddvlexport
+ 28 -rwxrwxrwx 1 arul.dhandapani mtpservice    24679 Jul 27 08:09 mtpgitcmdexport
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     7959 Jul 27 08:09 mtpgitcmdexport1
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     8173 Jul 27 08:09 mtpgitcmdgetnew
+ 16 -rwxrwxrwx 1 arul.dhandapani mtpservice    12381 Jul 27 08:09 mtpgitcmdlfs
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     6842 Jul 27 08:09 mtpgitcmdmak
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     4393 Jul 27 08:09 mtpgitcmdmerge
+ 32 -rwxrwxrwx 1 arul.dhandapani mtpservice    31864 Jul 27 08:09 mtpgitcmdmove
+128 -rwxrwxrwx 1 arul.dhandapani mtpservice   128714 Jul 27 08:09 mtpgitcmdproduction
+120 -rwxr-xr-x 1 arul.dhandapani domain_users 120588 Jun  3 11:36 mtpgitcmdproduction_old
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     4721 Jul 27 08:09 mtpgitcmdpull
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     5758 Jul 27 08:09 mtpgitcmdpush
+ 12 -rwxrwxrwx 1 arul.dhandapani mtpservice     8638 Jul 27 08:09 mtpgitcmdpushmaster
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     5359 Jul 27 08:09 mtpgitcmdrevision
+ 24 -rwxrwxrwx 1 arul.dhandapani mtpservice    24074 Jul 27 08:09 mtpgitcmdstageexport
+ 20 -rwxr-xr-x 1 arul.dhandapani domain_users  19177 Jun  3 11:36 mtpgitcmdstageexport_old
+ 20 -rwxr-xr-x 1 arul.dhandapani domain_users  16715 Jun  3 11:36 mtpgitcmdstageexport_test
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     7898 Jul 27 08:09 mtpgitcmdstgexport
+ 20 -rwxrwxrwx 1 arul.dhandapani mtpservice    19567 Jul 27 08:09 mtpgitcmdsycommit
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     4847 Jul 27 08:09 mtpgitcmdsync
+
+ 16 -rwxr-xr-x 1 arul.dhandapani mtpservice    15325 Jul 27 08:09 mtpgitcreatebranch
+ 16 -rwxrwxrwx 1 arul.dhandapani mtpservice    16280 Jul 27 08:09 mtpgitcreateconfig
+196 -rwxrwxrwx 1 arul.dhandapani domain_users 198799 Jul 27 08:09 mtpgitcreatedvlcfg
+ 68 -rwxrwxrwx 1 arul.dhandapani mtpservice    65701 Jun  3 11:36 mtpgitcreatedvlcfg_old
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     4274 Jul 27 08:09 mtpgitcreatedvlspace
+ 28 -rwxrwxrwx 1 arul.dhandapani mtpservice    26287 Jul 27 08:09 mtpgitcreatelclcfg
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     4833 Jul 27 08:09 mtpgitcreatelclsearch
+ 12 -rwxrwxrwx 1 arul.dhandapani mtpservice    11171 Jul 27 08:09 mtpgitcreateprodrepo
+  4 -rwxrwxrwx 1 arul.dhandapani mtpservice     4009 Jul 27 08:09 mtpgitcreatestagspace
+204 -rwxr-xr-x 1 arul.dhandapani mtpservice   206887 Jul 27 08:09 mtpgitcreatestgcfg
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     4387 Jul 27 08:09 mtpgitcreatestgspace
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     5563 Jul 27 08:09 mtpgitcreateticket
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     6138 Jul 27 08:09 mtpgitcreateworkspace
+  
+  8 -rwxrwxr-x 1 arul.dhandapani mtpservice     5567 Jul 27 08:09 mtpgitdeleteimpl
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     4924 Jul 27 08:09 mtpgitdeletestgspace
+  8 -rwxr-xr-x 1 arul.dhandapani domain_users   7804 Jul 27 08:09 mtpgitdelprodfile
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     5427 Jun  3 11:36 mtpgitgetapifile
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     5043 Jul 27 08:09 mtpgitimpcntlfile
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     6239 Jul 27 08:09 mtpgitimportworkspace
+200 -rwxrwxrwx 1 arul.dhandapani mtpservice   204324 Jul 27 08:09 mtpgitmigaratenonibm
+ 44 -rwxrwxrwx 1 arul.dhandapani mtpservice    44429 Jul 27 08:09 mtpgitmigaratenonibm1
+212 -rwxrwxrwx 1 arul.dhandapani mtpservice   216965 Jul 27 08:09 mtpgitmigrateprodrepo
+ 12 -rwxr-xr-x 1 arul.dhandapani mtpservice    11691 Jul 27 08:09 mtpgitmigration
+ 12 -rwxrwxrwx 1 arul.dhandapani mtpservice     9250 Jul 27 08:09 mtpgitpopulate
+ 12 -rwxrwxrwx 1 arul.dhandapani mtpservice     9346 Jul 27 08:09 mtpgitprojrestore
+ 12 -rwxrwxrwx 1 arul.dhandapani mtpservice     9912 Jul 27 08:09 mtpgitpushbinary
+ 40 -rwxr-xr-x 1 arul.dhandapani domain_users  39376 Jul 27 08:09 mtpgitpushderivedlfs
+  4 -rwxrwxrwx 1 arul.dhandapani mtpservice     3420 Jul 27 08:09 mtpgitreconsilejob
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     7120 Jul 27 08:09 mtpgitrepofilesearch
+  4 -rwxrwxrwx 1 arul.dhandapani domain_users   3993 Jul 27 08:09 mtpgitsoname
+ 12 -rwxr-xr-x 1 arul.dhandapani mtpservice     9027 Jul 27 08:09 mtpgittagchange
+
+
+ 48 -rwxrwxrwx 1 arul.dhandapani mtpservice    48724 Jul 27 08:09 mtplibrary
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     5029 Jul 27 08:09 mtplogin
+ 12 -rwxr-xr-x 1 arul.dhandapani domain_users   8674 Jul 27 08:09 mtpmonitssh
+  4 -rwxrwxrwx 1 arul.dhandapani mtpservice     2339 Jul 27 08:09 mtpsshkey
+
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     7999 Jul 27 08:09 mtptpfaudit
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     5683 Jul 27 08:09 mtptpfcntchk
+  8 -rwxr-xr-x 1 arul.dhandapani domain_users   6015 Jul 27 08:09 mtptpfcommoncode
+ 16 -rwxrwxrwx 1 arul.dhandapani mtpservice    13875 Jul 27 08:09 mtptpfctlcheck
+  8 -rwxr-xr-x 1 arul.dhandapani mtpservice     4811 Jul 27 08:09 mtptpfdependency
+ 16 -rwxrwxrwx 1 arul.dhandapani mtpservice    12296 Jun  3 11:36 mtptpfdsldelete
+ 16 -rwxrwxrwx 1 arul.dhandapani mtpservice    15475 Jun  3 11:36 mtptpfdslupdate
+ 12 -rwxrwxrwx 1 arul.dhandapani mtpservice     8736 Jul 27 08:09 mtptpfdvlcompile
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     5987 Jul 27 08:09 mtptpfdvlload
+ 88 -rwxrwxrwx 1 arul.dhandapani mtpservice    86774 Jul 27 08:09 mtptpfdvlloader
+ 28 -rwxr-xr-x 1 arul.dhandapani domain_users  27542 Jun  9 14:02 mtptpffallbackdsl
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     5128 Jul 27 08:09 mtptpffilecheck
+ 16 -rwxr-xr-x 1 arul.dhandapani domain_users  14196 Jul 27 08:09 mtptpffsgitmigrate
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     6848 Jul 27 08:09 mtptpfftploader
+ 12 -rwxr-xr-x 1 arul.dhandapani domain_users  11409 Jul 27 08:09 mtptpfloadfileinq
+  8 -rwxr-xr-x 1 arul.dhandapani domain_users   4985 Jul 27 08:09 mtptpfloadfiles
+  4 -rwxrwxrwx 1 arul.dhandapani mtpservice     3287 Jun  3 11:36 mtptpfnfm
+  4 -rwxrwxrwx 1 arul.dhandapani mtpservice     2786 Jun  3 11:36 mtptpfnfmcheck
+  4 -rwxrwxrwx 1 arul.dhandapani mtpservice     3461 Jun  3 11:36 mtptpfnfmcheckoldr
+ 28 -rwxr-xr-x 1 arul.dhandapani domain_users  27511 Jun  9 14:02 mtptpfregulardsl
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     7877 Jul 27 08:09 mtptpfstgcompile
+ 12 -rwxrwxrwx 1 arul.dhandapani mtpservice    11088 Jul 27 08:09 mtptpfstgload
+120 -rwxrwxrwx 1 arul.dhandapani domain_users 122287 Jul 27 08:27 mtptpfstgloader
+ 76 -rwxr-xr-x 1 arul.dhandapani domain_users  76391 Jun  3 11:36 mtptpfstgloader_old
+ 48 -rwxrwxrwx 1 arul.dhandapani mtpservice    45860 Jul 27 08:09 mtptpfupdatenfmdsl
+ 
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     7336 Jul 27 08:09 mtpwfcreateimplementation
+  4 -rwxrwxrwx 1 arul.dhandapani mtpservice     4087 Jul 27 08:09 mtpwfdbcrchk
+ 12 -rwxr-xr-x 1 arul.dhandapani domain_users  10618 Jul 27 08:09 mtpwfderivedlst
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     6003 Jul 27 08:09 mtpwfrepodeltag
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     5769 Jul 27 08:09 mtpwfrepotag
+  
+ 16 -rwxrwxrwx 1 arul.dhandapani mtpservice    15844 Jul 27 08:09 mtpzgilibrary
+ 16 -rwxrwxrwx 1 arul.dhandapani mtpservice    12811 Jul 27 08:09 mtpzgiretrive
+  8 -rwxrwxrwx 1 arul.dhandapani mtpservice     4717 Jul 27 08:09 mtpzgisync
+  
+  8 -rwxr-xr-x 1 arul.dhandapani domain_users   7597 Jul 27 08:09 mtpzrxgitallfiles
+ 12 -rwxr-xr-x 1 arul.dhandapani mtpservice     9623 Jul 27 08:09 mtpzrxgitfiles
+ 12 -rwxrwxrwx 1 arul.dhandapani mtpservice     9200 Jul 27 08:09 mtpzrxretrive
+  8 -rwxr-xr-x 1 arul.dhandapani mtpservice     5428 Jul 27 08:09 mtpzrxtapinfo
+  
+  8 -rwxr-xr-x 1 arul.dhandapani mtpservice     4290 Jul 27 08:09 mtpzsbtrmlock
+  4 -rwxr-xr-x 1 arul.dhandapani domain_users    915 Jul 27 08:09 resources.code-workspace
+  4 -rwxr-xr-x 1 arul.dhandapani domain_users   2972 Jul 27 08:09 tsigitimpcntlfile.sh
+  8 -rwxr-xr-x 1 arul.dhandapani domain_users   5907 Jul 27 08:09 tsigitrepofilesearch.sh
+  8 -rwxr-xr-x 1 arul.dhandapani domain_users   6460 Jul 27 08:09 tsiwfcreateimplementation.sh
+
